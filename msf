@@ -7,6 +7,7 @@ else
   port=$1
 fi
 
+xdotool set_window --name "msf $port" "$(xdotool getactivewindow)"
 ipaddr="$(ip --brief a | grep tun0 | awk '{print $3}' | sed 's/\/\w\+//g')"
 echo "Starting MSF Console"
 echo "ip: $ipaddr port: $port payload: windows/x64/meterpreter/reverse_https"
